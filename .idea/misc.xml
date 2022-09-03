@@ -7,7 +7,10 @@
         <entry key="app/src/main/res/drawable/rounded_corners_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33789260385005065" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.33789260385005065" />
+        <entry key="app/src/main/res/layout/fragment_album_details.xml" value="0.1828774062816616" />
+        <entry key="app/src/main/res/layout/fragment_albums.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_second.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/item_album.xml" value="0.1" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.5712962962962963" />
       </map>
