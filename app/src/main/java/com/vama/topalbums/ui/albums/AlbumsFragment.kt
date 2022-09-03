@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.vama.topalbums.databinding.FragmentFirstBinding
+import com.vama.topalbums.databinding.FragmentAlbumsBinding
 import com.vama.topalbums.presentation.albums.AlbumsViewModel
 import com.vama.topalbums.ui.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FirstFragment : BaseFragment<AlbumsViewState>() {
+class AlbumsFragment : BaseFragment<AlbumsViewState>() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentAlbumsBinding? = null
 
     override val viewModel: AlbumsViewModel by viewModels()
 
@@ -30,7 +30,7 @@ class FirstFragment : BaseFragment<AlbumsViewState>() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentAlbumsBinding.inflate(inflater, container, false)
         return binding.root
 
     }
