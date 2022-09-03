@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.topalbums.ui.AlbumsFragment"
+        android:name="com.vama.topalbums.ui.albums.FirstFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_albums">
+        tools:layout="@layout/fragment_first">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.topalbums.ui.AlbumDetailsFragment"
+        android:name="com.vama.topalbums.ui.albumdetails.SecondFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_album_details">
+        tools:layout="@layout/fragment_second">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
