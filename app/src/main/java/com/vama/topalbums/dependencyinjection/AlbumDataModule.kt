@@ -1,23 +1,23 @@
 package com.vama.topalbums.dependencyinjection
 
+import android.content.Context
 import com.vama.topalbums.data.AlbumDataRepository
 import com.vama.topalbums.data.local.AlbumLocalDataSource
 import com.vama.topalbums.data.local.AlbumLocalSource
 import com.vama.topalbums.data.local.model.AlbumDatabaseModel
+import com.vama.topalbums.data.local.model.GenreDatabaseModel
 import com.vama.topalbums.data.remote.AlbumRemoteDataSource
 import com.vama.topalbums.data.remote.AlbumRemoteSource
 import com.vama.topalbums.data.remote.AlbumService
 import com.vama.topalbums.data.remote.createRestClient
 import com.vama.topalbums.domain.NetworkConnectivity
-import com.vama.topalbums.domain.mapper.AlbumApiModelToAlbumMapper
-import com.vama.topalbums.domain.mapper.AlbumDatabaseModelToAlbumMapper
-import com.vama.topalbums.domain.mapper.AlbumsToDatabaseMapper
+import com.vama.topalbums.domain.mapper.*
 import com.vama.topalbums.domain.repository.AlbumRepository
-import com.vama.topalbums.ui.albums.AlbumsAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 
@@ -30,7 +30,7 @@ object AlbumDataModule {
 
     @Provides
     fun providesRealmConfiguration() = RealmConfiguration.Builder(
-        schema = setOf(AlbumDatabaseModel::class)
+        schema = setOf(AlbumDatabaseModel::class, GenreDatabaseModel::class)
     ).build()
 
     @Provides
@@ -62,11 +62,30 @@ object AlbumDataModule {
     )
 
     @Provides
-    fun providesAlbumApiModelToAlbumMapper() = AlbumApiModelToAlbumMapper()
+    fun providesGenreApiToGenreMapper() = GenreApiToGenreMapper()
 
     @Provides
-    fun providesAlbumDatabaseModelToAlbumMapper() = AlbumDatabaseModelToAlbumMapper()
+    fun providesAlbumApiModelToAlbumMapper(
+        genreApiToGenreMapper: GenreApiToGenreMapper
+    ) = AlbumApiModelToAlbumMapper(genreApiToGenreMapper)
 
     @Provides
-    fun providesAlbumsToDatabaseMapper() = AlbumsToDatabaseMapper()
+    fun providesGenreDatabaseModelToGenreMapper() = GenreDatabaseModelToGenreMapper()
+
+    @Provides
+    fun providesAlbumDatabaseModelToAlbumMapper(
+        genreDatabaseModelToGenreMapper: GenreDatabaseModelToGenreMapper
+    ) = AlbumDatabaseModelToAlbumMapper(genreDatabaseModelToGenreMapper)
+
+    @Provides
+    fun providesGenreToGenreDatabaseMapper() = GenreToGenreDatabaseMapper()
+
+    @Provides
+    fun providesAlbumsToDatabaseMapper(
+        genreToGenreDatabaseMapper: GenreToGenreDatabaseMapper
+    ) = AlbumsToDatabaseMapper(genreToGenreDatabaseMapper)
+
+    @Provides
+    fun providesConnectivityManager(@ApplicationContext context: Context) =
+        NetworkConnectivity(context)
 }

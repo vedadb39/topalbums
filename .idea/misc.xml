@@ -4,14 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/drawable/spinner_background.xml" value="0.204" />
+        <entry key="app/src/main/res/drawable/genree_shape.xml" value="0.6385" />
+        <entry key="app/src/main/res/drawable/ic_icon_chevron_left.xml" value="0.3505" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1875" />
+        <entry key="app/src/main/res/drawable/oval_background.xml" value="0.3505" />
         <entry key="app/src/main/res/drawable/rounded_corners_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33789260385005065" />
+        <entry key="app/src/main/res/layout/collapsing_app_bar.xml" value="0.40729166666666666" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.33789260385005065" />
         <entry key="app/src/main/res/layout/fragment_album_details.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/fragment_albums.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/item_album.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_genre.xml" value="0.69375" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.5712962962962963" />
       </map>
     </option>

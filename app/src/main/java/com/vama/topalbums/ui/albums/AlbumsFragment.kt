@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.vama.topalbums.databinding.FragmentAlbumsBinding
 import com.vama.topalbums.presentation.albums.AlbumsViewModel
+import com.vama.topalbums.presentation.albums.AlbumsViewState
+import com.vama.topalbums.ui.albums.AlbumsFragmentDirections.Companion.actionAlbumsFragmentToAlbumDetailsFragment
 import com.vama.topalbums.ui.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -39,15 +42,21 @@ class AlbumsFragment : BaseFragment<AlbumsViewState>() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onViewCreated()
         setupUi()
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
     }
 
     private fun setupUi() {
+        binding.collapsingToolbar.title = "Top 100 albums"
+
         with(binding.albumsView) {
+            binding.toolbar
             layoutManager = GridLayoutManager(context, 2)
             adapter = albumsAdapter
+        }
+        binding.emptyDataView.setOnClickListener {
+            viewModel.onRetryAction()
+        }
+        albumsAdapter.itemClickListener = { album ->
+            findNavController().navigate(actionAlbumsFragmentToAlbumDetailsFragment(album.id))
         }
     }
 

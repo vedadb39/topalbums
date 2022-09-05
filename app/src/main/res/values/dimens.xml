@@ -1,3 +1,8 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <!-- Common CollapsingAppBar  -->
+    <dimen name="collapsing_app_bar_height">88dp</dimen>
+    <dimen name="collapsing_app_bar_top_padding">84dp</dimen>
+    <dimen name="text_size_expanded_collapsing_app_bar">34sp</dimen>
+    <dimen name="text_size_collapsed_collapsing_app_bar">16sp</dimen>
+
 </resources>

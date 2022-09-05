@@ -7,5 +7,8 @@ data class AlbumApiModel(
     val name: String,
     val artistName: String,
     @SerializedName("artworkUrl100")
-    val thumbnailImage: String
+    val thumbnailImage: String,
+    val url: String,
+    val releaseDate: String,
+    val genres: List<GenreApiModel>
 )

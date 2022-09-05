@@ -3,26 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/AlbumsFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/AlbumsFragment"
         android:name="com.vama.topalbums.ui.albums.AlbumsFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/albums_fragment_label"
         tools:layout="@layout/fragment_albums">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_AlbumsFragment_to_AlbumDetailsFragment"
+            app:destination="@id/AlbumDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/AlbumDetailsFragment"
         android:name="com.vama.topalbums.ui.albumdetails.AlbumDetailsFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/album_details_fragment_label"
         tools:layout="@layout/fragment_album_details">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
     </fragment>
 </navigation>

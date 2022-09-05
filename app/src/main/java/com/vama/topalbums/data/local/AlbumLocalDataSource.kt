@@ -16,12 +16,35 @@ class AlbumLocalDataSource(
     }
 
     override suspend fun saveAlbums(albums: List<AlbumDatabaseModel>) {
-        realm.writeBlocking {
+        removeAlbums()
+        saveAlbumsInDatabase(albums)
+    }
+
+    override suspend fun getAlbum(id: Int): AlbumDatabaseModel? {
+        val album = realm.query<AlbumDatabaseModel>("album_id == $0", id).first().find()
+        println()
+        return album
+    }
+
+    private suspend fun removeAlbums() {
+        realm.write {
+            val albums = query<AlbumDatabaseModel>().find()
+            delete(albums)
+        }
+    }
+
+    private suspend fun saveAlbumsInDatabase(albums: List<AlbumDatabaseModel>) {
+        realm.write {
             for (album in albums) {
                 copyToRealm(AlbumDatabaseModel().apply {
+                    album_id = album.album_id
                     name = album.name
                     thumbnail_image = album.thumbnail_image
                     artist = album.artist
+                    release_date = album.release_date
+                    url = album.url
+                    genres = album.genres
+                    copyright = album.copyright
                 })
             }
         }

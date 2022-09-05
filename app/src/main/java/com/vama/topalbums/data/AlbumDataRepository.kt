@@ -1,7 +1,5 @@
 package com.vama.topalbums.data
 
-import com.vama.topalbums.data.Result.Error
-import com.vama.topalbums.data.Result.Success
 import com.vama.topalbums.data.local.AlbumLocalSource
 import com.vama.topalbums.data.remote.AlbumRemoteSource
 import com.vama.topalbums.domain.NetworkConnectivity
@@ -9,8 +7,8 @@ import com.vama.topalbums.domain.mapper.AlbumApiModelToAlbumMapper
 import com.vama.topalbums.domain.mapper.AlbumDatabaseModelToAlbumMapper
 import com.vama.topalbums.domain.mapper.AlbumsToDatabaseMapper
 import com.vama.topalbums.domain.model.Album
-import com.vama.topalbums.domain.model.CachePolicy
 import com.vama.topalbums.domain.repository.AlbumRepository
+import kotlinx.coroutines.flow.flow
 
 class AlbumDataRepository(
     private val albumRemoteSource: AlbumRemoteSource,
@@ -21,41 +19,36 @@ class AlbumDataRepository(
     private val networkConnectivity: NetworkConnectivity
 ) : AlbumRepository {
 
-//    override suspend fun getAlbums(cachePolicy: CachePolicy) = try {
-//        val result = if (networkConnectivity.isConnectedToInternet()) {
-//            if (getFromLocal().isEmpty()) {
-//                getFromRemote()
-//            } else {
-//                getFromLocalThenUpdateFromRemote()
-//            }
-//        } else {
-//            getFromLocal()
-//        }
-//        Success(result)
-//    } catch (exception: Exception) {
-//        Error(exception)
-//    }
+    override suspend fun getAlbums() = flow {
+        emit(Resource.Loading())
+        val isConnectedToInternet = networkConnectivity.isConnectedToInternet()
+        val localAlbums = getFromLocal()
+        emit(Resource.Success(localAlbums))
 
-    override suspend fun getAlbums(cachePolicy: CachePolicy) = try {
-        Success(getFromRemote())
-    } catch (exception: Exception) {
-        Error(exception)
+        if (isConnectedToInternet.not()) {
+            return@flow
+        }
+
+        try {
+            val remoteAlbums = getFromRemote()
+            emit(Resource.Success(remoteAlbums))
+            saveToLocal(remoteAlbums)
+        } catch (exception: Exception) {
+            emit(Resource.Error("Couldn't get albums"))
+            return@flow
+        }
     }
 
     private suspend fun getFromLocal() = albumLocalSource.getAlbums().map { album ->
         albumDatabaseModelToAlbumMapper.map(album)
     }
 
-    private suspend fun getFromRemote() = albumRemoteSource.getAlbums().map { album ->
-        albumApiModelToAlbumMapper.map(album)
-    }.also { albums ->
-        saveToLocal(albums)
-    }
-
-    private suspend fun getFromLocalThenUpdateFromRemote() =
-        getFromLocal().also {
-            saveToLocal(getFromRemote())
+    private suspend fun getFromRemote(): List<Album> {
+        val albumResponse = albumRemoteSource.getAlbums()
+        return albumResponse.results.map { album ->
+            albumApiModelToAlbumMapper.map(album, albumResponse.copyright)
         }
+    }
 
     private suspend fun saveToLocal(albums: List<Album>) {
         val albumsDatabase = albums.map { album ->
@@ -64,7 +57,10 @@ class AlbumDataRepository(
         albumLocalSource.saveAlbums(albumsDatabase)
     }
 
-    override suspend fun getAlbumDetails(albumId: Int): Album {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getAlbumDetails(albumId: Int) =
+        albumLocalSource.getAlbum(albumId)?.let { databaseAlbum ->
+            val album = albumDatabaseModelToAlbumMapper.map(databaseAlbum)
+            Resource.Success(album)
+        } ?: Resource.Error("Item not found")
+
 }

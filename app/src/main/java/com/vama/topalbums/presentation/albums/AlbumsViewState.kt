@@ -1,4 +1,4 @@
-package com.vama.topalbums.ui.albums
+package com.vama.topalbums.presentation.albums
 
 import com.vama.topalbums.domain.model.Album
 import com.vama.topalbums.ui.core.ViewState
@@ -17,6 +17,13 @@ sealed class AlbumsViewState(
         albums = emptyList()
     )
 
+    object Empty : AlbumsViewState(
+        isLoadingVisible = false,
+        isEmptyViewVisible = true,
+        isDataViewVisible = false,
+        albums = emptyList()
+    )
+
     data class Success(override val albums: List<Album>) : AlbumsViewState(
         isLoadingVisible = false,
         isEmptyViewVisible = false,
@@ -24,7 +31,7 @@ sealed class AlbumsViewState(
         albums
     )
 
-    object ErrorOrEmpty : AlbumsViewState(
+    object Error : AlbumsViewState(
         isLoadingVisible = false,
         isEmptyViewVisible = true,
         isDataViewVisible = false,

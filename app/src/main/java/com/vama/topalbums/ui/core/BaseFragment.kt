@@ -24,4 +24,6 @@ abstract class BaseFragment<VIEW_STATE : ViewState> : Fragment() {
     inner class RenderStateObserver : Observer<VIEW_STATE> {
         override fun onChanged(viewState: VIEW_STATE) = renderViewState(viewState)
     }
+
+
 }
